@@ -1,0 +1,1068 @@
+paths:
+  /users:
+    get:
+      tags:
+      - user
+      summary: Gets all users
+      description: Gets all users
+      operationId: getAllUsers
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                - id: 1
+                  name: Joaquim Mendes
+                  email: joquim.mendes@umaia.pt
+                  status: active
+                - id: 2
+                  name: Filipa Ferreira
+                  email: filipa.ferreira@umaia.pt
+                  status: active
+                items:
+                  $ref: '#/components/schemas/User'
+                x-content-type: application/json
+      x-swagger-router-controller: User
+    post:
+      tags:
+      - user
+      summary: Add a new user
+      description: Add a new user
+      operationId: addUser
+      requestBody:
+        description: Create a new user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            examples:
+              UserExampleCreate01:
+                $ref: '#/components/examples/UserExampleCreate01'
+              UserExampleCreate02:
+                $ref: '#/components/examples/UserExampleCreate02'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "405":
+          description: Invalid input
+      x-swagger-router-controller: User
+  /users/{userId}:
+    get:
+      tags:
+      - user
+      summary: Find user by ID
+      description: Find user by ID
+      operationId: getUserById
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                id: 1
+                name: Joaquim Mendes
+                email: joquim.mendes@umaia.pt
+                status: active
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: User not found
+      x-swagger-router-controller: User
+    put:
+      tags:
+      - user
+      summary: Update a user
+      description: Update a user
+      operationId: updateUser
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Update a User
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            examples:
+              UserExampleUpdate01:
+                $ref: '#/components/examples/UserExampleUpdate01'
+              UserExampleUpdate02:
+                $ref: '#/components/examples/UserExampleUpdate02'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: User not found
+      x-swagger-router-controller: User
+    delete:
+      tags:
+      - user
+      summary: Delete a user
+      description: Delete a user
+      operationId: deleteUser
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "400":
+          description: Invalid user value
+      x-swagger-router-controller: User
+  /users/{userId}/calendars:
+    get:
+      tags:
+      - calendar
+      summary: Gets all calendars
+      description: Gets all calendars
+      operationId: getAllCalendars
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Calendar'
+                x-content-type: application/json
+              example:
+              - id: 1
+                description: Birthdays
+              - id: 2
+                description: Workout
+      x-swagger-router-controller: Calendar
+    post:
+      tags:
+      - calendar
+      summary: Add a new calendar
+      description: Add a new calendar
+      operationId: addCalendar
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Add a new calendar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Calendar'
+            examples:
+              CalendarExampleCreate01:
+                $ref: '#/components/examples/CalendarExampleCreate01'
+              CalendarExampleCreate02:
+                $ref: '#/components/examples/CalendarExampleCreate02'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Calendar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Calendar'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "405":
+          description: Invalid input
+      x-swagger-router-controller: Calendar
+  /users/{userId}/calendars/{calendarId}:
+    get:
+      tags:
+      - calendar
+      summary: Find calendar By ID
+      description: Find calendar By ID
+      operationId: getcalendarById
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Calendar'
+              example:
+                id: 1
+                description: Parties
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Calendar not found
+      x-swagger-router-controller: Calendar
+    put:
+      tags:
+      - calendar
+      summary: Update a calendar
+      description: Update a calendar
+      operationId: updateCalendar
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Update a Calendar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Calendar'
+            examples:
+              CalendarExampleUpdate01:
+                $ref: '#/components/examples/CalendarExampleUpdate01'
+              CalendarExampleUpdate02:
+                $ref: '#/components/examples/CalendarExampleUpdate02'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Calendar'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Calendar'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Calendar not found
+      x-swagger-router-controller: Calendar
+    delete:
+      tags:
+      - calendar
+      summary: Deletes a calendar
+      description: delete a calendar
+      operationId: deleteCalendar
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "400":
+          description: Invalid calendar value
+      x-swagger-router-controller: Calendar
+  /users/{userId}/calendars/{calendarId}/events:
+    get:
+      tags:
+      - event
+      summary: Gets all events
+      description: Gets all events
+      operationId: getAllEvents
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                - id: 1
+                  description: Do Laundry
+                  start_date: 2023-12-29 15:00
+                  end_date: 2023-12-29 16:00
+                  category_id: 12
+                - id: 2
+                  description: Padel Game
+                  start_date: 2023-12-23 10:00
+                  end_date: 2023-12-23 12:00
+                  category_id: 1
+                items:
+                  $ref: '#/components/schemas/Event'
+                x-content-type: application/json
+      x-swagger-router-controller: Event
+    post:
+      tags:
+      - event
+      summary: Add a new event
+      description: Add a new event
+      operationId: addEvent
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Create a new event
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+            examples:
+              EventExampleCreate01:
+                $ref: '#/components/examples/EventExampleCreate01'
+              EventExampleCreate02:
+                $ref: '#/components/examples/EventExampleCreate02'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Event'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Event'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "405":
+          description: Invalid input
+      x-swagger-router-controller: Event
+  /users/{userId}/calendars/{calendarId}/events/{eventId}:
+    get:
+      tags:
+      - event
+      summary: Find event By ID
+      description: Find event By ID
+      operationId: getEventById
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        description: Event identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+              example:
+                id: 1
+                name: Play Soccer
+                start_date: 2023-12-25 12:00
+                end_date: 2023-12-25 14:00
+                category_id: 1
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Event not found
+      x-swagger-router-controller: Event
+    put:
+      tags:
+      - event
+      summary: Update a event
+      description: Update a event
+      operationId: updateEvent
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        description: Event identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Update a Event
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+            examples:
+              EventExampleUpdate01:
+                $ref: '#/components/examples/EventExampleUpdate01'
+              EventExampleUpdate02:
+                $ref: '#/components/examples/EventExampleUpdate02'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Event'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Event'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Event not found
+      x-swagger-router-controller: Event
+    delete:
+      tags:
+      - event
+      summary: Deletes a event
+      description: Delete a event
+      operationId: deleteEvent
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        description: Event identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "400":
+          description: Invalid event value
+      x-swagger-router-controller: Event
+  /users/{userId}/calendars/{calendarId}/categories:
+    get:
+      tags:
+      - category
+      summary: Gets all categories
+      description: Gets all categories
+      operationId: getAllCategories
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                example:
+                - id: 1
+                  description: Kids
+                - id: 2
+                  description: Workout
+                items:
+                  $ref: '#/components/schemas/Category'
+                x-content-type: application/json
+      x-swagger-router-controller: Category
+    post:
+      tags:
+      - category
+      summary: Add a new category
+      description: Add a new category
+      operationId: addcategory
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Add a new category
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+            examples:
+              CalendarExampleCreate01:
+                $ref: '#/components/examples/CalendarExampleCreate01'
+              CalendarExampleCreate02:
+                $ref: '#/components/examples/CalendarExampleCreate02'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "405":
+          description: Invalid input
+      x-swagger-router-controller: Category
+  /users/{userId}/calendars/{calendarId}/categories/{categoryId}:
+    get:
+      tags:
+      - category
+      summary: Find category By ID
+      description: Find category By ID
+      operationId: getCategoryById
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: categoryId
+        in: path
+        description: Category identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+              example:
+                id: 1
+                name: Workout
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Category not found
+      x-swagger-router-controller: Category
+    put:
+      tags:
+      - category
+      summary: Update a category
+      description: Update a category
+      operationId: updateCategory
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: categoryId
+        in: path
+        description: Category identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Update a category
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+            examples:
+              CategoryExampleUpdate01:
+                $ref: '#/components/examples/CategoryExampleUpdate01'
+              CategoryExampleUpdate02:
+                $ref: '#/components/examples/CategoryExampleUpdate02'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Calendar not found
+      x-swagger-router-controller: Category
+    delete:
+      tags:
+      - category
+      summary: Deletes a category
+      description: delete a category
+      operationId: deleteCategory
+      parameters:
+      - name: userId
+        in: path
+        description: User identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: calendarId
+        in: path
+        description: Calendar identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      - name: categoryId
+        in: path
+        description: Category identifier
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: 'ID:100'
+                x-content-type: application/json
+        "400":
+          description: Invalid category value
+      x-swagger-router-controller: Category
+components:
+  schemas:
+    User:
+      required:
+      - name
+      - email
+      - status
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        status:
+          type: string
+          enum:
+          - active
+          - inactive
+      example:
+        id: 1
+        name: Joaquim Santos
+        email: joaquim.santos@mail.pt
+        status: active
+      xml:
+        name: user
+    Calendar:
+      required:
+      - description
+      type: object
+      properties:
+        description:
+          type: string
+      example:
+        id: 1
+        description: Amazing calendar
+      xml:
+        name: calendar
+    Event:
+      required:
+      - description
+      - start_date
+      - end_date
+      - category_id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        description:
+          type: string
+        start_date:
+          type: string
+        end_date:
+          type: string
+        category_id:
+          type: integer
+          format: int64
+      example:
+        id: 1
+        description: Buy Christmas presents
+        end_date: 2020-12-12 09:00
+        start_date: 2020-12-12 10:00
+        category_id: 6
+      xml:
+        name: event
+    Category:
+      required:
+      - description
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        description:
+          type: string
+      example:
+        id: 1
+        description: Amazing category
+
+      xml:
+        name: category
+  examples:
+    UserExampleUpdate01:
+      value:
+        name: Joaquim Mendes
+        email: joquim.mendes@umaia.pt
+        status: active
+    UserExampleUpdate02:
+      value:
+        name: Filipa Ferreira
+        email: filipa.ferreira@umaia.pt
+        status: inactive
+    UserExampleCreate01:
+      value:
+        name: Filipa Ferreira
+        email: filipa.ferreira@umaia.pt
+        status: inactive
+    UserExampleCreate02:
+      value:
+        name: Joaquim Mendes
+        email: joquim.mendes@umaia.pt
+        status: active
+    CalendarExampleUpdate01:
+      value:
+        description: Birthdays Calendar
+    CalendarExampleUpdate02:
+      value:
+        description: Parties Calendar
+    CalendarExampleCreate01:
+      value:
+        description: Birthdays Calendar
+    CalendarExampleCreate02:
+      value:
+        description: Parties Calendar
+    EventExampleCreate01:
+      value:
+        description: Do Laundry
+        start_date: 2023-12-29 15:00
+        end_date: 2023-12-29 16:00
+        category_id: 12
+    EventExampleCreate02:
+      value:
+        description: Padel Game
+        start_date: 2023-12-23 10:00
+        end_date: 2023-12-23 12:00
+        category_id: 13
+    EventExampleUpdate01:
+      value:
+        description: Do Laundry
+        start_date: 2023-12-29 15:00
+        end_date: 2023-12-29 16:00
+        category_id: 12
+    EventExampleUpdate02:
+      value:
+        description: Padel Game
+        start_date: 2023-12-23 10:00
+        end_date: 2023-12-23 12:00
+        category_id: 14
+    CategoryExampleCreate01:
+      value:
+        description: Workout
+    CategoryExampleCreate02:
+      value:
+        description: Kids
+    CategoryExampleUpdate01:
+      value:
+        description: Workout
+    CategoryExampleUpdate02:
+      value:
+        description: Kids
