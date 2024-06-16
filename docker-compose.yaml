@@ -1,0 +1,43 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: inf23dw2g22/db
+    container_name: db
+    build:
+      context: .
+      dockerfile: ./docker/dockerfile.database
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+
+  api:
+    image: inf23dw2g22/api
+    container_name: api
+    depends_on:
+      - db
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: prod
+    ports:
+      - "3000:3000"
+
+  ui:
+    image: inf23dw2g22/ui
+    container_name: ui
+    depends_on:
+      - db
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - "4000:4000"
